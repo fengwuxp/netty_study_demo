@@ -48,7 +48,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         System.out.println("---服务端读取数据发生异常---");
-        System.out.println(cause.getCause().getMessage());
+        cause.printStackTrace();
         ctx.close();
     }
 }

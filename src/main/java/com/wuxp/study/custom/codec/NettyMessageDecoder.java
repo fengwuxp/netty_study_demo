@@ -28,7 +28,6 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
         Object decode = super.decode(ctx, in);
-        System.err.println("开始解码");
         if (decode == null) {
             return null;
         }
@@ -49,7 +48,6 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
         if (frame.readableBytes() > 4) {
             nettyMessage.setBody(myMarshallingDecoder.decode(frame));
         }
-        System.err.println(nettyMessage);
         return nettyMessage;
     }
 }

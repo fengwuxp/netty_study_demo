@@ -1,6 +1,7 @@
 package com.wuxp.study.custom.codec;
 
 import io.netty.buffer.ByteBuf;
+import org.jboss.marshalling.ByteOutput;
 import org.jboss.marshalling.Marshaller;
 
 import java.io.IOException;
@@ -29,18 +30,15 @@ public class MyMarshallingEncoder {
             //占位写操作
             out.writeBytes(PLACEHOLDER_BYTES);
 
-            ChannelBufferByteOutput output = new ChannelBufferByteOutput(out);
+            ByteOutput output = new ChannelBufferByteOutput(out);
             this.marshaller.start(output);
             this.marshaller.writeObject(data);
             this.marshaller.finish();
 
-            //body写入的结束位置
-            int endIndex = out.writerIndex();
-
             //获得body内容的长度
-            int contentLength = endIndex - beginIndex - PLACEHOLDER_LENGTH;
+            int contentLength =  out.writerIndex() - beginIndex - PLACEHOLDER_LENGTH;
             //将contentLength的值设置到之前的占位字节中
-            out.setIndex(contentLength, beginIndex);
+            out.setInt(beginIndex, contentLength);
         } finally {
             marshaller.close();
         }

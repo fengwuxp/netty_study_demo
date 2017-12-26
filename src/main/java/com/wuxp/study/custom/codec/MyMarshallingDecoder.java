@@ -1,6 +1,7 @@
 package com.wuxp.study.custom.codec;
 
 import io.netty.buffer.ByteBuf;
+import org.jboss.marshalling.ByteInput;
 import org.jboss.marshalling.Unmarshaller;
 
 
@@ -22,7 +23,7 @@ public class MyMarshallingDecoder {
             ByteBuf byteBuf = in.slice(in.readerIndex(), bodySize);
 
             //3：转化
-            ChannelBufferByteInput input = new ChannelBufferByteInput(byteBuf);
+            ByteInput input = new ChannelBufferByteInput(byteBuf);
 
             //4：读取操作
             this.unmarshaller.start(input);

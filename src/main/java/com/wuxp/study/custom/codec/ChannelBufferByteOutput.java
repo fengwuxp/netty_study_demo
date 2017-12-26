@@ -7,39 +7,42 @@ import java.io.IOException;
 
 public class ChannelBufferByteOutput implements ByteOutput {
 
-    private ByteBuf byteBuf;
+    private final ByteBuf buffer;
 
-
-    public ChannelBufferByteOutput(ByteBuf byteBuf) {
-        this.byteBuf = byteBuf;
-    }
-
-    @Override
-    public void write(int b) throws IOException {
-        this.byteBuf.writeByte(b);
-    }
-
-    @Override
-    public void write(byte[] b) throws IOException {
-        this.byteBuf.writeBytes(b);
-    }
-
-    @Override
-    public void write(byte[] b, int off, int len) throws IOException {
-        this.byteBuf.writeBytes(b,off,len);
+    ChannelBufferByteOutput(ByteBuf buffer) {
+        this.buffer = buffer;
     }
 
     @Override
     public void close() throws IOException {
-
+        // Nothing to do
     }
 
     @Override
     public void flush() throws IOException {
-
+        // nothing to do
     }
 
-    public ByteBuf getByteBuf() {
-        return byteBuf;
+    @Override
+    public void write(int b) throws IOException {
+        buffer.writeByte(b);
+    }
+
+    @Override
+    public void write(byte[] bytes) throws IOException {
+        buffer.writeBytes(bytes);
+    }
+
+    @Override
+    public void write(byte[] bytes, int srcIndex, int length) throws IOException {
+        buffer.writeBytes(bytes, srcIndex, length);
+    }
+
+    /**
+     * Return the {@link ByteBuf} which contains the written content
+     *
+     */
+    ByteBuf getBuffer() {
+        return buffer;
     }
 }
