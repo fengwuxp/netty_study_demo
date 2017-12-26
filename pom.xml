@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wuxp.study</groupId>
+    <artifactId>netty_study</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+
+    <properties>
+
+    </properties>
+
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <!--<version>5.0.0.Alpha2</version>-->
+            <version>4.1.12.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling</artifactId>
+            <version>2.0.2.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling-serial -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-serial</artifactId>
+            <version>2.0.2.Final</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--使用插件生成java 代码-->
+            <!--http://blog.csdn.net/qq_27273089/article/details/70230897-->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.5.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <!--执行的命令-->
+                    <!--<protocExecutable>protoc</protocExecutable>-->
+                    <!--proto文件目录-->
+                    <protoSourceRoot>${project.basedir}/src/main/proto/</protoSourceRoot>
+
+                    <!--输出目录-->
+                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                    <!--<outputDirectory>${project.build.sourceDirectory}</outputDirectory>-->
+                    <!--设置是否在生成java文件之前清空outputDirectory的文件，默认值为true，设置为false时也会覆盖同名文件-->
+                    <clearOutputDirectory>false</clearOutputDirectory>
+                    <!--默认值-->
+                    <temporaryProtoFileDirectory>${project.build.directory}/protoc-dependencies
+                    </temporaryProtoFileDirectory>
+                    <!--更多配置信息可以查看https://www.xolstice.org/protobuf-maven-plugin/compile-mojo.html-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                        <!--也可以设置成局部变量，执行compile或test-compile时才执行-->
+                        <!--<configuration>-->
+                        <!--<protoSourceRoot>${project.basedir}/src/main/proto</protoSourceRoot>-->
+                        <!--<outputDirectory>${project.build.directory}/generated-sources/protobuf/java</outputDirectory>-->
+                        <!--<temporaryProtoFileDirectory>${project.build.directory}/protoc-dependencies</temporaryProtoFileDirectory>-->
+                        <!--</configuration>-->
+                    </execution>
+                </executions>
+            </plugin>
+            <!--http://blog.csdn.net/superye1983/article/details/10106871-->
+            <!--<plugin>-->
+                <!--<artifactId>maven-antrun-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>compile-protoc</id>-->
+                        <!--<phase>generate-sources</phase>-->
+                        <!--<configuration>-->
+                            <!--<tasks>-->
+                                <!--<mkdir dir="src/main/gen-java"/>-->
+                                <!--<path id="proto.path">-->
+                                    <!--<fileset dir="src/main/proto">-->
+                                        <!--<include name="**/*.proto"/>-->
+                                    <!--</fileset>-->
+                                <!--</path>-->
+                                <!--<pathconvert pathsep=" "-->
+                                             <!--property="proto.files"-->
+                                             <!--refid="proto.path"/>-->
+                                <!--<exec executable="protoc">-->
+                                    <!--<arg value="&#45;&#45;java_out=src/main/gen-java"/>-->
+                                    <!--<arg value="-I${project.basedir}/src/main/proto"/>-->
+                                    <!--<arg line="${proto.files}"/>-->
+                                <!--</exec>-->
+                            <!--</tasks>-->
+                            <!--<sourceRoot>src/main/gen-java</sourceRoot>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>run</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<artifactId>maven-clean-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<verbose>true</verbose>-->
+                    <!--<filesets>-->
+                        <!--<fileset>-->
+                            <!--<directory>src/main/gen-java</directory>-->
+                        <!--</fileset>-->
+                    <!--</filesets>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+        </plugins>
+    </build>
+</project>

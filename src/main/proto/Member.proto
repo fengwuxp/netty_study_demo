@@ -1,0 +1,6 @@
+option java_package = "com.wuxp.study.proto";
+option java_outer_classname = "MemberDTO"; //生成的数据访问类的类名
+
+message Member{
+    required string name=1;
+}

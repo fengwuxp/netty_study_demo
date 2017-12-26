@@ -1,0 +1,6 @@
+option java_package = "com.wuxp.study.proto";
+option java_outer_classname = "GroupDTO"; //生成的数据访问类的类名
+
+message Group {
+    required string num = 1;
+}
